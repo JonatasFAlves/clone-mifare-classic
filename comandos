@@ -1,0 +1,17 @@
+mkdir copiando-meia-passagem
+cd copiando-meia-passagem
+
+## Copia conteudo da meia passagem para arquivo meia.mfd utilizando as
+## chaves contidas em chave.dic. StndOutput do comando salva em meia.txt
+mfoc -f chave.dic -O meia.mfd >> meia.txt
+
+mfoc -O moeda-blank.mfd
+
+## Dois dumps são necessários para utilizar as duas chaves e gravar todos os casos ACL
+nfc-mfclassic W a moeda-blank.mfd meia.mfd
+nfc-mfclassic W b moeda-blank.mfd meia.mfd
+
+mfoc -f chave.dic -O moeda-after.mfd >> moeda-after.txt
+
+## Não deverá haver mudanças
+diff meia.txt moeda-after.txt
